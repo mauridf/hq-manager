@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <div class="header-content">
+    <span class="header-title">{{ title }}</span>
+    
+    <div class="spacer"></div>
+    
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-button">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    
+    <mat-menu #userMenu="matMenu" class="user-menu">
+      <button mat-menu-item (click)="openUserInfo()">
+        <mat-icon>person</mat-icon>
+        <span>Meu Perfil</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

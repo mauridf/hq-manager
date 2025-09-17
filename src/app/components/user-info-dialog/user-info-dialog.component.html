@@ -1,0 +1,37 @@
+<div class="user-info-dialog">
+  <h2 mat-dialog-title>Informações do Usuário</h2>
+  
+  <mat-dialog-content>
+    <mat-list>
+      <mat-list-item>
+        <mat-icon matListItemIcon>email</mat-icon>
+        <div matListItemTitle>Email</div>
+        <div matListItemLine>{{ data.user?.email }}</div>
+      </mat-list-item>
+      
+      <mat-divider></mat-divider>
+      
+      <mat-list-item>
+        <mat-icon matListItemIcon>calendar_today</mat-icon>
+        <div matListItemTitle>Criado em</div>
+        <div matListItemLine>{{ data.user?.criadoEm | date:'dd/MM/yyyy HH:mm' }}</div>
+      </mat-list-item>
+      
+      <mat-divider></mat-divider>
+      
+      <mat-list-item>
+        <mat-icon matListItemIcon>login</mat-icon>
+        <div matListItemTitle>Último login</div>
+        <div matListItemLine>{{ data.user?.ultimoLogin | date:'dd/MM/yyyy HH:mm' }}</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onClose()">Fechar</button>
+    <button mat-raised-button color="warn" (click)="onLogout()">
+      <mat-icon>logout</mat-icon>
+      Sair
+    </button>
+  </mat-dialog-actions>
+</div>
