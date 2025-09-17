@@ -1,1 +1,11 @@
-<router-outlet />
+@if (shouldShowLayout()) {
+  <div class="app-container">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+    <main class="content-container">
+      <router-outlet />
+    </main>
+  </div>
+} @else {
+  <router-outlet />
+}

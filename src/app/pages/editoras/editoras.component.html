@@ -1,0 +1,25 @@
+<div class="editoras-container">
+  <div class="page-header">
+    <h1>Editoras</h1>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Carregando editoras...</p>
+    </div>
+  } @else {
+    <app-data-table
+      [data]="editoras"
+      [columns]="columns"
+      [actions]="actions"
+      [totalItems]="totalItems"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [searchPlaceholder]="'Pesquisar por nome...'"
+      (pageChange)="onPageChange($event)"
+      (searchChange)="onSearchChange($event)"
+      (addNew)="onAddNew()">
+    </app-data-table>
+  }
+</div>
