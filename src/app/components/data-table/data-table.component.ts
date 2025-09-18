@@ -16,6 +16,7 @@ export interface ColumnDefinition {
   header: string;
   type?: 'text' | 'image' | 'link' | 'number' | 'date' | 'custom';
   customTemplate?: TemplateRef<any>;
+  formatter?: (value: any, item: any) => any; // Nova propriedade para formatação
 }
 
 export interface ActionDefinition {
@@ -59,16 +60,14 @@ export class DataTableComponent {
   private searchSubject = new Subject<string>();
 
   constructor() {
-    // Configurar debounce para a pesquisa
     this.searchSubject.pipe(
-      debounceTime(300), // Aguarda 300ms após a última tecla
-      distinctUntilChanged() // Só emite se o valor mudou
+      debounceTime(300),
+      distinctUntilChanged()
     ).subscribe(searchTerm => {
       this.searchChange.emit(searchTerm);
     });
   }
 
-  // Garantir que data nunca seja undefined
   get tableData(): any[] {
     return this.data || [];
   }
@@ -90,7 +89,17 @@ export class DataTableComponent {
     return this.actions.length > 0 ? [...columnKeys, 'actions'] : columnKeys;
   }
 
-  // Limpar subscription quando o componente for destruído
+  // Método para formatar valores customizados
+  formatValue(column: ColumnDefinition, item: any): any {
+    const value = item[column.key];
+    
+    if (column.formatter) {
+      return column.formatter(value, item);
+    }
+    
+    return value || '-';
+  }
+
   ngOnDestroy() {
     this.searchSubject.complete();
   }

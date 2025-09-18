@@ -1,0 +1,16 @@
+.descricao-dialog {
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.descricao-content {
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+mat-dialog-actions {
+  padding: 16px 0;
+  margin: 0;
+}
