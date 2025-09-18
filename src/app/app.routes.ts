@@ -4,6 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { HomeComponent } from './pages/home/home.component';
 import { EditorasComponent } from './pages/editoras/editoras.component';
 import { PersonagensComponent } from './pages/personagens/personagens.component';
+import { EquipesComponent } from './pages/equipes/equipes.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -12,7 +13,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'editoras', component: EditorasComponent },
   { path: 'personagens', component: PersonagensComponent },
-  { path: 'equipes', component: HomeComponent }, // Temporário
+  { path: 'equipes', component: EquipesComponent },
   { path: 'hqs', component: HomeComponent }, // Temporário
   { path: '**', redirectTo: '/login' } // ← Esta deve ser a ÚLTIMA rota
 ];
