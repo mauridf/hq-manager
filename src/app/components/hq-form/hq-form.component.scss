@@ -1,0 +1,56 @@
+.hq-form-dialog {
+  min-width: 600px;
+  max-width: 800px;
+}
+
+.hq-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tag-field {
+  flex: 1;
+}
+
+mat-dialog-actions {
+  padding: 16px 0;
+  margin: 0;
+  position: sticky;
+  bottom: 0;
+  background: white;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .hq-form-dialog {
+    min-width: auto;
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+}

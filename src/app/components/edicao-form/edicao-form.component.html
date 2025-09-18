@@ -1,0 +1,63 @@
+<div class="edicao-form-dialog">
+  <h2 mat-dialog-title>
+    {{ data.isEdit ? 'Editar Edição' : 'Nova Edição' }}
+  </h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="edicaoForm" class="edicao-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="titulo" required>
+        <mat-error *ngIf="edicaoForm.get('titulo')?.hasError('required')">Título é obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Número</mat-label>
+        <input matInput formControlName="numero" required>
+        <mat-error *ngIf="edicaoForm.get('numero')?.hasError('required')">Número é obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>URL da Capa</mat-label>
+        <input matInput formControlName="capa" placeholder="https://exemplo.com/capa.jpg">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Sinopse</mat-label>
+        <textarea matInput formControlName="sinopse" rows="3"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Observações</mat-label>
+        <textarea matInput formControlName="obs" rows="2"></textarea>
+      </mat-form-field>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Nota (0-10)</mat-label>
+          <input matInput type="number" formControlName="nota" min="0" max="10" step="0.1">
+          <mat-error *ngIf="edicaoForm.get('nota')?.hasError('min')">Nota mínima é 0</mat-error>
+          <mat-error *ngIf="edicaoForm.get('nota')?.hasError('max')">Nota máxima é 10</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Data de Leitura</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dataLeitura">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <mat-checkbox formControlName="lida" class="full-width">
+        Marcar como lida
+      </mat-checkbox>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!edicaoForm.valid">
+      {{ data.isEdit ? 'Salvar' : 'Criar' }}
+    </button>
+  </mat-dialog-actions>
+</div>

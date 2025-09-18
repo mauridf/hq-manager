@@ -1,0 +1,61 @@
+<div class="edicoes-dialog">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>Edições - {{ data.hq.nome }}</h2>
+    <button mat-icon-button (click)="onClose()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content>
+    <!-- Estatísticas -->
+    @if (estatisticas) {
+      <div class="estatisticas-container">
+        <div class="estatistica-item">
+          <span class="estatistica-label">Total de Edições:</span>
+          <span class="estatistica-valor">{{ estatisticas.totalEdicoes }}</span>
+        </div>
+        <div class="estatistica-item">
+          <span class="estatistica-label">Lidas:</span>
+          <span class="estatistica-valor">{{ estatisticas.edicoesLidas }}</span>
+        </div>
+        <div class="estatistica-item">
+          <span class="estatistica-label">Concluído:</span>
+          <span class="estatistica-valor">{{ estatisticas.porcentagemConcluida }}%</span>
+        </div>
+        <div class="estatistica-item">
+          <span class="estatistica-label">Média de Notas:</span>
+          <span class="estatistica-valor">{{ estatisticas.mediaNotas | number:'1.1-1' }}</span>
+        </div>
+      </div>
+    }
+
+    <!-- Tabela de Edições -->
+    @if (isLoading) {
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Carregando edições...</p>
+      </div>
+    } @else {
+      <div class="tabela-container">
+        <app-data-table
+          [data]="edicoes"
+          [columns]="columns"
+          [actions]="actions"
+          [totalItems]="edicoes.length"
+          [pageSize]="5"
+          [pageIndex]="0"
+          [searchPlaceholder]="'Pesquisar edições...'"
+          (addNew)="onAddNovaEdicao()">
+        </app-data-table>
+      </div>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onClose()">Fechar</button>
+    <button mat-raised-button color="primary" (click)="onAddNovaEdicao()">
+      <mat-icon>add</mat-icon>
+      Nova Edição
+    </button>
+  </mat-dialog-actions>
+</div>

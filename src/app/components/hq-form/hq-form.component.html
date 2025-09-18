@@ -1,0 +1,122 @@
+<div class="hq-form-dialog">
+  <h2 mat-dialog-title>
+    {{ isEdit ? 'Editar HQ' : 'Nova HQ' }}
+  </h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="hqForm" class="hq-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="nome" required>
+          <mat-error *ngIf="hqForm.get('nome')?.hasError('required')">Nome é obrigatório</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome Original</mat-label>
+          <input matInput formControlName="nomeOriginal">
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tipo de Publicação</mat-label>
+          <mat-select formControlName="tipoPublicacao" required>
+            <mat-option *ngFor="let tipo of tiposPublicacao" [value]="tipo.valor">
+              {{ tipo.descricao }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hqForm.get('tipoPublicacao')?.hasError('required')">Tipo é obrigatório</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status" required>
+            <mat-option *ngFor="let status of statusHQ" [value]="status.valor">
+              {{ status.descricao }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hqForm.get('status')?.hasError('required')">Status é obrigatório</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Total de Edições</mat-label>
+          <input matInput type="number" formControlName="totalEdicoes" required min="0">
+          <mat-error *ngIf="hqForm.get('totalEdicoes')?.hasError('required')">Total é obrigatório</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Ano de Lançamento</mat-label>
+          <input matInput type="number" formControlName="anoLancamento" required min="1800" [max]="currentYear">
+          <mat-error *ngIf="hqForm.get('anoLancamento')?.hasError('required')">Ano é obrigatório</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>URL da Imagem</mat-label>
+        <input matInput formControlName="imagem" placeholder="https://exemplo.com/capa.jpg">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Sinopse</mat-label>
+        <textarea matInput formControlName="sinopse" rows="4" required></textarea>
+        <mat-error *ngIf="hqForm.get('sinopse')?.hasError('required')">Sinopse é obrigatória</mat-error>
+      </mat-form-field>
+
+      <div class="full-width">
+        <label>Tags</label>
+        <div formArrayName="tags">
+          <div *ngFor="let tag of tags.controls; let i = index" class="tag-row">
+            <mat-form-field appearance="outline" class="tag-field">
+              <input matInput [formControlName]="i" placeholder="Tag">
+            </mat-form-field>
+            <button mat-icon-button type="button" (click)="removeTag(i)">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+        <button mat-button type="button" (click)="addTag()">
+          <mat-icon>add</mat-icon>
+          Adicionar Tag
+        </button>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Editoras</mat-label>
+        <mat-select formControlName="editoras" multiple required>
+          <mat-option *ngFor="let editora of editoras" [value]="editora.id">
+            {{ editora.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="hqForm.get('editoras')?.hasError('required')">Selecione pelo menos uma editora</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Personagens</mat-label>
+        <mat-select formControlName="personagens" multiple>
+          <mat-option *ngFor="let personagem of personagens" [value]="personagem.id">
+            {{ personagem.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Equipes</mat-label>
+        <mat-select formControlName="equipes" multiple>
+          <mat-option *ngFor="let equipe of equipes" [value]="equipe.id">
+            {{ equipe.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!hqForm.valid">
+      {{ isEdit ? 'Salvar' : 'Criar' }}
+    </button>
+  </mat-dialog-actions>
+</div>
