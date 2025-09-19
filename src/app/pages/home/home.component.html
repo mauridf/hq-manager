@@ -1,16 +1,155 @@
 <div class="home-container">
   <div class="main-content">    
     <main class="content-area">
-      <mat-card class="welcome-card">
-        <mat-card-header>
-          <mat-card-title>Bem-vindo ao HQManager</mat-card-title>
-        </mat-card-header>
-        
-        <mat-card-content>
-          <p>Seu sistema de gerenciamento de quadrinhos.</p>
-          <p>Use o menu lateral para navegar entre as seções.</p>
-        </mat-card-content>
-      </mat-card>
+      @if (isLoading) {
+        <div class="loading-container">
+          <mat-spinner diameter="50"></mat-spinner>
+          <p>Carregando dashboard...</p>
+        </div>
+      } @else {
+        <!-- Estatísticas Gerais -->
+        <div class="dashboard-header">
+          <h1>Dashboard HQManager</h1>
+          <p>Visão geral da sua coleção de quadrinhos</p>
+        </div>
+
+        <!-- Cards de Estatísticas -->
+        <div class="stats-grid">
+          <mat-card class="stat-card">
+            <mat-card-header>
+              <mat-card-title>Total de HQs</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="stat-number">{{ estatisticas?.totalHQs || 0 }}</div>
+              <div class="stat-label">HQs na coleção</div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="stat-card">
+            <mat-card-header>
+              <mat-card-title>Personagens</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="stat-number">{{ estatisticas?.totalPersonagens || 0 }}</div>
+              <div class="stat-label">Personagens cadastrados</div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="stat-card">
+            <mat-card-header>
+              <mat-card-title>Equipes</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="stat-number">{{ estatisticas?.totalEquipes || 0 }}</div>
+              <div class="stat-label">Equipes cadastradas</div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="stat-card">
+            <mat-card-header>
+              <mat-card-title>Edições Lidas</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="stat-number">{{ estatisticas?.totalEdicoesLidas || 0 }}</div>
+              <div class="stat-label">Edições finalizadas</div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="stat-card">
+            <mat-card-header>
+              <mat-card-title>Nota Média</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="stat-number">{{ estatisticas?.notaMedia?.toFixed(1) || '0.0' }}</div>
+              <div class="stat-label">Média de avaliações</div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Gráficos e HQs Recentes -->
+        <div class="charts-container">
+          <!-- Gráfico de Pizza -->
+          <mat-card class="chart-card">
+            <mat-card-header>
+              <mat-card-title>Distribuição de HQs por Editora</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <canvas baseChart
+                [data]="pieChartData"
+                [options]="pieChartOptions"
+                [type]="pieChartType">
+              </canvas>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Gráfico de Barras -->
+          <mat-card class="chart-card">
+            <mat-card-header>
+              <mat-card-title>Status das HQs por Editora</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <canvas baseChart
+                [data]="barChartData"
+                [options]="barChartOptions"
+                [type]="barChartType">
+              </canvas>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Gráfico de Donut -->
+          <mat-card class="chart-card">
+            <mat-card-header>
+              <mat-card-title>Taxa de Leitura por Editora</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <canvas baseChart
+                [data]="doughnutChartData"
+                [options]="doughnutChartOptions"
+                [type]="doughnutChartType">
+              </canvas>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- HQs Recentes -->
+        <mat-card class="recent-hqs-card">
+          <mat-card-header>
+            <mat-card-title>HQs Recentes</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            @if (hqsRecentes.length === 0) {
+              <div class="no-data">
+                <mat-icon>collections_bookmark</mat-icon>
+                <p>Nenhuma HQ cadastrada recentemente</p>
+              </div>
+            } @else {
+              <div class="hqs-grid">
+                @for (hq of hqsRecentes; track hq.id) {
+                  <div class="hq-item">
+                    <div class="hq-info">
+                      <h3>{{ hq.nome }}</h3>
+                      <div class="hq-details">
+                        <span class="status-badge" [style.background-color]="getStatusColor(hq.status)">
+                          {{ hq.status }}
+                        </span>
+                        <span class="progress">{{ hq.progresso }}</span>
+                      </div>
+                    </div>
+                    <div class="hq-progress">
+                      <div class="progress-bar">
+                        <div class="progress-fill" [style.width.%]="getPorcentagemLeitura(hq.edicoesLidas, hq.totalEdicoes)"></div>
+                      </div>
+                      <span class="progress-text">
+                        {{ hq.edicoesLidas }} de {{ hq.totalEdicoes }} ({{ getPorcentagemLeitura(hq.edicoesLidas, hq.totalEdicoes) }}%)
+                      </span>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
     </main>
   </div>
 </div>
